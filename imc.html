@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IMC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator-container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .blue { background-color: #3498db; }
+        .green { background-color: #2ecc71; }
+        .orange { background-color: #e67e22; }
+        .red { background-color: #e74c3c; }
+        .pink { background-color: #ff6f91; }
+        .purple { background-color: #9b59b6; }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <h1>Calculadora de IMC</h1>
+        <form id="imcForm">
+            <input type="number" id="peso" placeholder="Ingresa tu peso (kg)" step="0.1" required>
+            <input type="number" id="talla" placeholder="Ingresa tu altura (m)" step="0.01" required>
+            <button type="button" onclick="calcularIMC()">Calcular IMC</button>
+        </form>
+        <div id="resultado" class="result"></div>
+    </div>
+
+    <script>
+        function calcularIMC() {
+            const peso = parseFloat(document.getElementById('peso').value);
+            const talla = parseFloat(document.getElementById('talla').value);
+            const resultadoDiv = document.getElementById('resultado');
+
+            if (isNaN(peso) || isNaN(talla) || peso <= 0 || talla <= 0) {
+                resultadoDiv.textContent = "Por favor, ingresa valores válidos.";
+                resultadoDiv.style.backgroundColor = '#e74c3c';
+                return;
+            }
+
+            const imc = peso / (talla * talla);
+            let mensaje = "";
+            let colorClase = "";
+
+            if (imc < 18.5) {
+                mensaje = "Estás en 'Por debajo'.";
+                colorClase = "blue";
+            } else if (imc >= 18.5 && imc <= 24.9) {
+                mensaje = "Estás en 'Saludable'.";
+                colorClase = "green";
+            } else if (imc >= 25 && imc <= 29.9) {
+                mensaje = "Estás en 'Sobrepeso'.";
+                colorClase = "orange";
+            } else if (imc >= 30 && imc <= 34.9) {
+                mensaje = "Estás en 'Obesidad 1'.";
+                colorClase = "red";
+            } else if (imc >= 35 && imc <= 39.9) {
+                mensaje = "Estás en 'Obesidad 2'.";
+                colorClase = "pink";
+            } else if (imc >= 40) {
+                mensaje = "Estás en 'Obesidad 3'.";
+                colorClase = "purple";
+            }
+
+            resultadoDiv.textContent = `Tu IMC es ${imc.toFixed(2)}. ${mensaje}`;
+            resultadoDiv.className = `result ${colorClase}`;
+        }
+    </script>
+</body>
+</html>
